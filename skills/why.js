@@ -7,6 +7,8 @@ module.exports = function(controller) {
     convo.setVar('count', 0)
     convo.setVar('whyArray', [])
     
+    console.log('=====IN BEFORE THERAD START_SKILL')
+    
     convo.addQuestion({text: 'Why?'}, function(res, convo){
       if (res.text.trim().toLowercase() === 'done') {
         controller.gotoThread('wrapup')        
@@ -17,11 +19,16 @@ module.exports = function(controller) {
         convo.variables.whyArray.push(res.text)
         convo.repeat()
       }
-    }, {},'start')
+    }, {},'start_skill')
     
     next()
   })
   
-  controller.beforeThread('why', 'wrapup', function(conov, next))
+  controller.studio.beforeThread('why', 'wrapup', function(convo, next) {
+    if (convo.variables.whyArray.length) {
+      convo.setVar('whyResult', convo.variables.whyArray.join('\n❓')) 
+    }
+    next()
+  })
   
 }
