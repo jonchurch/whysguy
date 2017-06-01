@@ -18,7 +18,7 @@ module.exports = function(controller) {
         convo.repeat()
         convo.next()
       } if (convo.vars.count > 4) {
-        convo.gotoThread('wrapup')
+        convo.gotoThread('after5')
       } 
     }, {},'start_skill')
     
