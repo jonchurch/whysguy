@@ -1,11 +1,10 @@
 
 module.exports = function(controller) {
+  controller.studio.before('why')
+  
   
   // I want inject a more dynaic start thread into the why script
-  controller.studio.beforeThread('why', 'start_skill', function(convo, next) {
-    // Create a count so we know how many questions we've asked
-    convo.setVar('count', 0)
-    convo.setVar('whyArray', [])
+  controller.studio.beforeThread('why', 'start_skill', function(convo, next) 
     
     console.log('=====IN BEFORE THERAD START_SKILL')
     
