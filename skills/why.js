@@ -12,14 +12,14 @@ module.exports = function(controller) {
     convo.addQuestion({text: 'Why?'}, function(res, convo){
       if (res.text.trim().toLowerCase() === 'done') {
         convo.gotoThread('wrapup')        
-      } else if (convo.vars.count == 4) {
-        convo.gotoThread('wrapup')
       } else {
         convo.setVar('count', convo.vars.count += 1)
         convo.vars.whyArray.push(res.text)
         convo.repeat()
         convo.next()
-      }
+      } if (convo.vars.count > 4) {
+        convo.gotoThread('wrapup')
+      } 
     }, {},'start_skill')
     
     next()
@@ -27,7 +27,7 @@ module.exports = function(controller) {
   
   controller.studio.beforeThread('why', 'wrapup', function(convo, next) {
     if (convo.vars.whyArray.length) {
-      convo.setVar('whyResult', convo.vars.whyArray.join('\n❓')) 
+      convo.setVar('whyResult', '❓' + convo.vars.whyArray.join('\n❓')) 
     }
     next()
   })
