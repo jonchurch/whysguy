@@ -10,14 +10,15 @@ module.exports = function(controller) {
     console.log('=====IN BEFORE THERAD START_SKILL')
     
     convo.addQuestion({text: 'Why?'}, function(res, convo){
-      if (res.text.trim().toLowercase() === 'done') {
-        controller.gotoThread('wrapup')        
-      } if (convo.count == 4) {
+      if (res.text.trim().toLowerCase() === 'done') {
+        convo.gotoThread('wrapup')        
+      } else if (convo.vars.count == 4) {
         convo.gotoThread('wrapup')
       } else {
-        convo.setVar('count', convo.variables.count += 1)
-        convo.variables.whyArray.push(res.text)
+        convo.setVar('count', convo.vars.count += 1)
+        convo.vars.whyArray.push(res.text)
         convo.repeat()
+        convo.next()
       }
     }, {},'start_skill')
     
@@ -25,8 +26,8 @@ module.exports = function(controller) {
   })
   
   controller.studio.beforeThread('why', 'wrapup', function(convo, next) {
-    if (convo.variables.whyArray.length) {
-      convo.setVar('whyResult', convo.variables.whyArray.join('\n❓')) 
+    if (convo.vars.whyArray.length) {
+      convo.setVar('whyResult', convo.vars.whyArray.join('\n❓')) 
     }
     next()
   })
